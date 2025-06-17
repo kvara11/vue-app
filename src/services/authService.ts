@@ -1,7 +1,6 @@
-// src/composables/useAuth.js
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const user = ref(JSON.parse(localStorage.getItem('user') || 'null'))
+const user = ref(JSON.parse(localStorage.getItem('user') || 'null'));
 
 const testUser = {
   username: 'admin',
@@ -9,23 +8,23 @@ const testUser = {
 };
 
 
-function login(username :string, password: string) {
+function login(username: string, password: string) {
 
   if (username === testUser.username && password === testUser.password) {
-    user.value = { username }
-    localStorage.setItem('user', JSON.stringify(user.value))
-    return true
+    user.value = { username };
+    localStorage.setItem('user', JSON.stringify(user.value));
+    return true;
   }
-  return false
+  return false;
 }
 
 function logout() {
-  user.value = null
-  localStorage.removeItem('user')
+  user.value = null;
+  localStorage.removeItem('user');
 }
 
 function isLoggedIn() {
-  return !!user.value
+  return !!user.value;
 }
 
 export function authService() {
@@ -34,5 +33,5 @@ export function authService() {
     login,
     logout,
     isLoggedIn,
-  }
+  };
 }
