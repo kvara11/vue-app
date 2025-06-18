@@ -34,10 +34,11 @@ const { logout } = authService();
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #2e3a59;
-    color: white;
+    background-color: var(--primary-color);
+    color: var(--text-color);
     padding: 1rem 2rem;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
 }
 
 .logo {
