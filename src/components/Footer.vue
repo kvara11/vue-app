@@ -1,6 +1,6 @@
 <template>
     <footer class="app-footer">
-        <span>&copy; {{ currentYear }} • ყველა უფლება დაცულია</span>
+        <span><i class="fa fa-copyright" aria-hidden="true"></i> {{ currentYear }} • ყველა უფლება დაცულია </span>
     </footer>
 </template>
 

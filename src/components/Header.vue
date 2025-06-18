@@ -1,11 +1,12 @@
 <template>
     <header class="app-header">
-        <div class="left">
+        <router-link class="logo-cont" to="/">
+            <img src="../assets/logo.svg" alt="logo">
             <strong class="logo">App</strong>
-        </div>
-        <div class="right">
-            <span class="username">მოგესალმებით, {{ props.username }}!</span>
-            <button class="logout-button" @click="logout">Logout</button>
+        </router-link>
+        <div class="info">
+            <span class="username"><i>მოგესალმებით</i>, {{ props.username }}!</span>
+            <button class="logout-button" @click="logout"><strong>გასვლა</strong></button>
         </div>
     </header>
 </template>
@@ -29,15 +30,12 @@ const { logout } = authService();
 
 
 <style scoped>
-
 .app-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: var(--primary-color);
-    color: var(--text-color);
     padding: 1rem 2rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     z-index: 1000;
 }
 
@@ -45,7 +43,16 @@ const { logout } = authService();
     font-size: 1.5rem;
 }
 
-.right {
+.logo-cont {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.info {
+    color: var(--text-color);
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -62,9 +69,14 @@ const { logout } = authService();
     padding: 0.4rem 1rem;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 0.9rem;
 }
 
 .logout-button:hover {
     background-color: #d63b3b;
+}
+
+img {
+    width: 2em;
 }
 </style>
