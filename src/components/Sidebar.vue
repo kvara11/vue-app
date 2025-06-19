@@ -6,15 +6,21 @@
     <nav>
       <ul>
         <li>
-          <router-link to="/add" class="menu-item">
-            <i class="fa fa-plus-square" aria-hidden="true"></i>
-            <span class="text" v-show="!isMinimized">დამატება</span>
+          <router-link to="/" class="menu-item">
+            <i class="fa fa-home" aria-hidden="true"></i>
+            <span class="text" v-show="!isMinimized">მთავარი</span>
           </router-link>
         </li>
         <li>
           <router-link to="/view" class="menu-item">
             <i class="fa fa-table" aria-hidden="true"></i>
             <span class="text" v-show="!isMinimized">ცხრილი</span>
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/add" class="menu-item">
+            <i class="fa fa-plus-square" aria-hidden="true"></i>
+            <span class="text" v-show="!isMinimized">დამატება</span>
           </router-link>
         </li>
       </ul>
@@ -93,7 +99,7 @@ const toggleMinimize = () => {
 
 .text {
   font-size: 1.2em;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease-in-out;
 }
 
 .router-link-active {
@@ -101,8 +107,6 @@ const toggleMinimize = () => {
   border-left: 4px solid #42b983;
 }
 
-
-/* Adjust icon size when minimized */
 .sidebar.minimized .menu-item {
   padding: 15px;
   justify-content: center;
