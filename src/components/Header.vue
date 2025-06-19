@@ -5,7 +5,10 @@
             <strong class="logo">App</strong>
         </router-link>
         <div class="info">
-            <span class="username"><i class="fa fa-circle" aria-hidden="true"></i> Logged in as: <i>{{ props.username }}</i></span>
+            <span>
+                <i class="fa fa-circle" aria-hidden="true"></i> Logged in as:
+            </span>
+            <span class="username"><i>{{ props.username }}</i></span>
             <button class="logout-button" @click="logout"><strong>გასვლა</strong></button>
         </div>
     </header>
@@ -58,6 +61,13 @@ const { logout } = authService();
     gap: 1rem;
 }
 
+.info .fa-circle {
+  font-size: 0.6em;
+  vertical-align: middle;
+  color: #00ff80;
+  margin-right: 0.4em;
+}
+
 .username {
     font-weight: 500;
 }
@@ -80,9 +90,4 @@ img {
     width: 2em;
 }
 
-.fa-circle {
-    color: #00ff80;
-    font-size: 0.8em;
-    margin-right: 0.5em;
-}
 </style>
