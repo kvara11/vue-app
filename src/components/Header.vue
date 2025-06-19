@@ -1,12 +1,13 @@
 <template>
     <header class="app-header">
         <router-link class="logo-cont" to="/">
-            <img src="../assets/logo.svg" alt="logo">
-            <strong class="logo">App</strong>
+            <img src="../assets/logo.svg" alt="logo" class="logo-img">
+            <strong class="logo-text">App</strong>
         </router-link>
         <div class="info">
-            <span>
-                <i class="fa fa-circle" aria-hidden="true"></i> Logged in as:
+            <span class="status-time">
+                <i class="fa fa-circle" aria-hidden="true"></i>
+                <span class="time">{{ time }}</span>
             </span>
             <span class="username"><i>{{ props.username }}</i></span>
             <button class="logout-button" @click="logout"><strong>გასვლა</strong></button>
@@ -17,7 +18,8 @@
 
 
 <script setup lang="ts">
-
+import { ref, onMounted, onUnmounted } from 'vue';
+import moment from 'moment';
 import { authService } from '../services/authService';
 
 const props = defineProps<{
@@ -25,6 +27,18 @@ const props = defineProps<{
         type: string,
     }
 }>();
+
+let time = ref(moment().format('HH:mm'));
+
+onMounted(() => {
+    const intervalId = window.setInterval(() => {
+        time.value = moment().format('HH:mm');
+    }, 1000);
+
+    onUnmounted(() => {
+        clearInterval(intervalId);
+    });
+})
 
 const { logout } = authService();
 
@@ -42,7 +56,7 @@ const { logout } = authService();
     z-index: 1000;
 }
 
-.logo {
+.logo-text {
     font-size: 1.5rem;
 }
 
@@ -54,40 +68,81 @@ const { logout } = authService();
     color: var(--text-color);
 }
 
-.info {
-    color: var(--text-color);
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+.logo-img {
+    width: 2em;
+    transition: all 0.4s ease-in-out;
 }
 
-.info .fa-circle {
-  font-size: 0.6em;
-  vertical-align: middle;
-  color: #00ff80;
-  margin-right: 0.4em;
+.logo-cont:hover .logo-img {
+    filter: brightness(1.4);
+    width: 2.3em;
+    rotate: 25deg;
+}
+
+
+.info {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.5rem 1.2rem;
+    border-radius: 2rem;
+}
+
+.status-time {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    font-weight: 500;
+    color: #00ff80;
+    background: rgba(0, 255, 128, 0.07);
+    padding: 0.3em 0.9em;
+    border-radius: 1em;
+    font-size: 1.05em;
+}
+
+.status-time .fa-circle {
+    font-size: 0.7em;
+    color: #00ff80;
+    animation: flash 2.2s infinite;
+}
+
+@keyframes flash {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.05; }
+}
+
+.time {
+    color: var(--text-color);
+    font-family: 'Fira Mono', 'Consolas', monospace;
+    font-size: 1em;
+    letter-spacing: 0.04em;
 }
 
 .username {
-    font-weight: 500;
+    color: var(--text-color);
+    font-weight: 600;
+    font-size: 1.05em;
+    padding: 0.3em 0.9em;
+    border-radius: 1em;
 }
 
 .logout-button {
-    background-color: #f04e4e;
+    background: linear-gradient(90deg, #c43c3c 60%, #d6502e 100%);
     color: white;
     border: none;
-    padding: 0.4rem 1rem;
-    border-radius: 5px;
+    padding: 0.4em 1.2em;
+    border-radius: 1.2em;
+    font-weight: 700;
+    font-size: 1em;
+    margin-left: 0.7em;
     cursor: pointer;
-    font-size: 0.9rem;
+    box-shadow: 0 2px 8px rgba(240, 78, 78, 0.08);
+    transition: background 0.2s, box-shadow 0.2s;
 }
 
 .logout-button:hover {
-    background-color: #d63b3b;
+    background: linear-gradient(90deg, #d35839 60%, #ce5a5a 100%);
+    box-shadow: 0 4px 16px rgba(240, 78, 78, 0.15);
 }
-
-img {
-    width: 2em;
-}
-
 </style>
