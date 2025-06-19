@@ -21,6 +21,8 @@ const currentYear = moment().format('YYYY')
   align-items: center;
   justify-content: center;
   font-size: 0.9em;
+  box-shadow: 4px 7px 12px 0px rgb(0 48 73 / 25%);
+  z-index: 100;
 }
 
 </style>

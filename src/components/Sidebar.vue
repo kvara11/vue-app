@@ -49,6 +49,8 @@ const toggleMinimize = () => {
   padding: 100px 0;
   transition: width 0.3s ease;
   position: relative;
+  box-shadow: 4px 7px 12px 0px rgb(0 48 73 / 25%);
+  z-index: 200;
 }
 
 .sidebar.minimized {

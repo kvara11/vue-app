@@ -2,7 +2,7 @@
   <div class="dashboard">
     <div class="welcome-box box">
       <h2>მოგესალმებით</h2>
-      <p>{{ today }}</p>
+      <p>დღეს: {{ today }}</p>
     </div>
 
     <div class="news-box box">
@@ -15,16 +15,21 @@
 
     <div class="stats-box box">
       <h2>სტატისტიკა</h2>
-      <p>ჩანაწერების რაოდენობა: {{ total }}</p>
+      <p>ჩანაწერები: {{ total }}</p>
+      <p class="completed">დასრულებული: {{ completed }}</p>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import moment from 'moment'
+import moment from 'moment';
+import type { TableRow } from '../types';
 
 const today = moment().format('YYYY-MM-DD')
-const total = JSON.parse(localStorage.getItem('data') || '[]').length;
+
+const records = JSON.parse(localStorage.getItem('data') || '[]') as TableRow[];
+const total = records.length;
+const completed = records.filter((record) => record.status === 'დასრულებული').length;
 
 </script>
 
@@ -40,7 +45,6 @@ const total = JSON.parse(localStorage.getItem('data') || '[]').length;
 }
 
 .box {
-  background: #fff;
   padding: 1rem;
   border: 1px solid #ddd;
   border-radius: 10px;
@@ -48,20 +52,23 @@ const total = JSON.parse(localStorage.getItem('data') || '[]').length;
 }
 
 .box h2 {
-  padding-bottom: 0.5rem;
+  padding-bottom: 1em;
 }
 
 
 .welcome-box,
 .news-box,
-.data-box,
 .stats-box {
   background: #f7f7f7;
-  padding: 1rem;
+  padding: 2em;
   border-radius: 8px;
 }
 
 ul > li {
   margin-left: 1rem;
+}
+
+.completed {
+  color: #006800;
 }
 </style>

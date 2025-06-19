@@ -10,7 +10,7 @@
                 <span class="time">{{ time }}</span>
             </span>
             <span class="username"><i>{{ props.username }}</i></span>
-            <button class="logout-button" @click="logout"><strong>გასვლა</strong></button>
+            <button class="logout-button" @click="logout"><i class="fa fa-sign-out" aria-hidden="true"></i><strong> გამოსვლა</strong></button>
         </div>
     </header>
 </template>
@@ -53,7 +53,8 @@ const { logout } = authService();
     align-items: center;
     background-color: var(--primary-color);
     padding: 1rem 2rem;
-    z-index: 1000;
+    box-shadow: 4px 7px 12px 0px rgb(0 48 73 / 25%);
+    z-index: 100;
 }
 
 .logo-text {
@@ -134,7 +135,7 @@ const { logout } = authService();
     padding: 0.4em 1.2em;
     border-radius: 1.2em;
     font-weight: 700;
-    font-size: 1em;
+    font-size: 0.9em;
     margin-left: 0.7em;
     cursor: pointer;
     box-shadow: 0 2px 8px rgba(240, 78, 78, 0.08);
