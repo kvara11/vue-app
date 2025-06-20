@@ -41,7 +41,7 @@ if (isLoggedIn) {
         name: 'მაგალითი 2',
         createdAt: '2025-02-17 12:00',
         createdBy: 'admin',
-        type: 'ტიპი 1',
+        type: 'ტიპი 2',
         status: 'აქტიური'
       },
       {
