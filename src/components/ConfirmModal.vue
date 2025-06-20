@@ -1,7 +1,7 @@
 <template>
   <Teleport to="body">
     <Transition name="modal">
-      <div class="modal-backdrop" v-if="isOpened">
+      <div class="modal-backdrop" v-if="props.isOpened">
         <div class="modal">
           <div class="modal-content">
             <slot name="icon">
@@ -20,7 +20,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue';
 
 const props = defineProps({
   isOpened: { type: Boolean, required: true },
@@ -111,7 +110,7 @@ function emitCancel() {
 }
 .modal-enter-active,
 .modal-leave-active {
-  transition: all 0.3s ease;
+  transition: all 1s ease;
 }
 .modal-enter-from,
 .modal-leave-to {

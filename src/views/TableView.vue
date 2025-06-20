@@ -9,9 +9,10 @@
       v-else
       :data="tableData"
       :columns="columns"
-      @view="handleView"
-      @send="handleSend"
-      @edit="handleEdit"
+      @view=""
+      @edit=""
+      @row-edited="editRow"
+      @send="sendRow"
       @delete="deleteRow"
     />
 
@@ -28,8 +29,8 @@ import type { TableRow, Column } from '../types';
 
 const loading = ref(true);
 
-
 const columns: Column[] = [
+  { key: 'id', type: 'text', label: 'ID' },
   { key: 'name', type: 'text', label: 'სახელი' },
   { key: 'createdAt', type: 'text', label: 'შექმნის დრო' },
   { key: 'createdBy', type: 'text', label: 'ვინ შექმნა' },
@@ -53,21 +54,19 @@ onMounted(() => {
 
 
 
-const handleView = (id: string) => {
-  console.log('View details:', id);
-};
-
-const handleSend = (id: string) => {
+const sendRow = (id: string) => {
   const index = tableData.value.findIndex(row => row.id === id);
   tableData.value[index].status = 'დასრულებული';
 };
 
-const handleEdit = (id: string) => {
-  console.log('Edit:', id);
-};
+function editRow(editedRow: TableRow) {
+  const index = tableData.value.findIndex((row: TableRow) => row.id === editedRow.id);
+
+  tableData.value[index] = editedRow;
+  localStorage.setItem('data', JSON.stringify(tableData));
+}
 
 const deleteRow = (id: string) => {
-  console.log('Delete:', id);
   const index = tableData.value.findIndex(row => row.id === id);
   if (index !== -1) {
     tableData.value.splice(index, 1);
@@ -75,6 +74,7 @@ const deleteRow = (id: string) => {
 };
 
 </script>
+
 
 <style scoped>
 .view-view {

@@ -10,8 +10,19 @@
             <tbody>
                 <tr>
                     <td v-for="col in props.columns" :key="col.key">
-                        <input :id="col.key" :type="col.type" :placeholder="col.label" v-model="rowData[col.key]"
-                            required @input="error = ''" />
+                        <!-- Add/Edit -->
+                        <input 
+                            v-if="['add', 'edit'].includes(props.mode)" 
+                            :id="col.key" 
+                            :type="col.type" 
+                            :placeholder="col.label" 
+                            v-model="rowData[col.key]"
+                            required 
+                            @input="error = ''" 
+                        />
+
+                        <!-- View -->
+                        <span v-else>{{ props.row?.[col.key] }}</span>
                     </td>
                 </tr>
             </tbody>
@@ -25,7 +36,7 @@
             <p v-if="success" class="success">ჩანაწერი წარმატებით დაემატა</p>
         </Transition>
 
-        <button type="submit" class="submit">დამატება</button>
+        <button v-if="props.mode !== 'view'" type="submit" class="submit">დამატება</button>
 
     </form>
 
@@ -34,16 +45,18 @@
 
 <script setup lang="ts">
 
-import { reactive, ref } from 'vue'
+import { reactive, ref, watch } from 'vue'
 import type { Column, TableRow } from "../types";
 import moment from 'moment';
 import authService from '../services/authService';
 
 const props = defineProps<{
-    columns: Column[]
+    columns: Column[];
+    row?: TableRow | null;
+    mode: 'add' | 'view' | 'edit';
 }>();
 
-const emit = defineEmits(['row-added']);
+const emit = defineEmits(['row-added', 'row-edited']);
 
 const success = ref<boolean>(false);
 const error = ref<string | null>(null);
@@ -51,39 +64,53 @@ const error = ref<string | null>(null);
 const rowData = reactive<Record<string, any>>({});
 const { user } = authService();
 
+
+watch(
+  () => props.row,
+  () => {
+    if (props.mode === 'edit' && props.row) {
+      Object.assign(rowData, props.row)
+    }
+  },
+  { immediate: true }
+)
+
 function handleSubmit() {
 
     error.value = ''
 
     const validator = props.columns.filter(col => {
         const val = rowData[col.key]
-
-        if (val == null) {
-            return true;
-        }
-        return val.toString().trim() === '';
+        return val == null || val.toString().trim() === '';
     })
 
     if (validator.length) {
         error.value = `შეავსეთ ველი: ${validator[0].label} !`
         return
     }
+    
+    if (props.mode === 'edit') {
 
-    const newRow: TableRow = {
-        id: crypto.randomUUID(),
-        name: rowData.name,
-        createdAt: moment().format('YYYY-MM-DD HH:ss'),
-        createdBy: user.value?.username,
-        type: rowData.type,
-        status: 'აქტიური'
-    };
+        emit('row-edited', rowData);
 
-    emit('row-added', newRow);
+    } else {
+        const newRow: TableRow = {
+            id: Math.random().toString(16).slice(2, 6),
+            name: rowData.name,
+            createdAt: moment().format('YYYY-MM-DD HH:ss'),
+            createdBy: user.value?.username,
+            type: rowData.type,
+            status: 'აქტიური'
+        };
+    
+        emit('row-added', newRow);
+    
+        props.columns.forEach(col => {
+            rowData[col.key] = '';
+        });
+    }
 
-    props.columns.forEach(col => {
-        rowData[col.key] = '';
-    });
-
+    
     success.value = true;
     setTimeout(() => {
         success.value = false;

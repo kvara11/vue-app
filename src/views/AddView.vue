@@ -1,7 +1,7 @@
 <template>
   <div class="add-view">
 
-    <AddRow :finalData="finalData" @row-added="handleRowAdded" :columns="columns" />
+    <AddRow :finalData="finalData" @row-added="handleRowAdded" :columns="columns" mode="add" />
 
   </div>
 </template>

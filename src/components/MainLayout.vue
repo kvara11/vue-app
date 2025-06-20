@@ -4,7 +4,7 @@
     <div class="main-content">
       <Header :username="props.username" />
       <main class="content">
-        <router-view></router-view>
+        <RouterView />
       </main>
       <Footer />
     </div>

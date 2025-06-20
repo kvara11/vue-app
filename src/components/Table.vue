@@ -12,7 +12,7 @@
           <td v-for="column in props.columns" :key="column.key">{{ row[column.key] }}</td>
           <td class="actions">
 
-            <button @click="emits('view', row.id)" class="action-btn view" title="დათვალირება">
+            <button @click="openViewModal(row)" class="action-btn view" title="დათვალირება">
               <i class="fa fa-eye" aria-hidden="true"></i>
             </button>
             
@@ -20,7 +20,7 @@
               <i class="fa fa-paper-plane" aria-hidden="true"></i>
             </button>
             
-            <button @click="emits('edit', row.id)" class="action-btn edit" title="რედაქტირება">
+            <button @click="openEditModal(row)" class="action-btn edit" title="რედაქტირება">
               <i class="fa fa-pencil" aria-hidden="true"></i>
             </button>
             
@@ -33,20 +33,40 @@
       </TransitionGroup>
     </table>
 
-    <Modal
-      v-if="showDeleteModal"
-      :isOpened="showDeleteModal"
-      message="ნამდვილად გსურთ ჩანაწერის წაშლა?"
-      @confirm="confirmDelete"
-      @cancel="closeDeleteModal"
+    <RowModal
+      v-if="showViewModal && selectedRow"
+      :isOpened="showViewModal"
+      :row="selectedRow"
+      mode="view"
+      message="sss"
+      @cancel="closeViewModal"
+    />
+    
+    <Modal 
+      v-if="showSendModal"
+      :isOpened="showSendModal"
+      message="ნამდვილად გსურთ გადაგზავნა?"
+      @confirm="confirmSend"
+      @cancel="closeSendModal"
+    />
+
+    <RowModal
+      v-if="showEditModal && editingRow"
+      :isOpened="showEditModal"
+      :row="editingRow"
+      mode="edit"
+      message="რედაქტირება"
+      @row-edited="confirmEdit"
+      @confirm="confirmEdit"
+      @cancel="closeEditModal"
     />
 
     <Modal
-      v-if="showSendModal"
-      :isOpened="showSendModal"
-      message="ნამდვილად გსურთ დაგაგზავნა?"
-      @confirm="confirmSend"
-      @cancel="closeSendModal"
+      v-if="showDeleteModal"
+      :isOpened="showDeleteModal"
+      message="ნამდვილად გსურთ წაშლა?"
+      @confirm="confirmDelete"
+      @cancel="closeDeleteModal"
     />
   </div>
 </template>
@@ -55,22 +75,19 @@
 import { ref } from 'vue';
 import type { TableRow, Column } from '../types';
 import Modal from "../components/ConfirmModal.vue";
+import RowModal from "../components/TableRowModal.vue";
 // import * as XLSX from 'xlsx';
 
 const props = defineProps<{
   data: TableRow[];
   columns: Column[];
   title?: string;
-  onView?: (id: string) => void;
-  onSend?: (id: string) => void;
-  onEdit?: (id: string) => void;
-  onDelete?: (id: string) => void;
 }>();
 
 const emits = defineEmits<{
   view: [id: string];
   send: [id: string];
-  edit: [id: string];
+  edit: [row: TableRow];
   delete: [id: string];
 }>();
 
@@ -79,45 +96,85 @@ const tableData = ref<TableRow[]>(props.data);
 
 
 // Modal ის ფუნქციები
-const selectedRow = ref<string | null>(null);
-const showDeleteModal = ref(false);
+const selectedRowId = ref<string | null>(null);
+const selectedRow = ref<TableRow | null>(null);
 
-function openDeleteModal(id: string) {
-  selectedRow.value = id;
-  showDeleteModal.value = true;
+// view
+const showViewModal = ref(false);
+
+function openViewModal(row: TableRow) {
+  selectedRow.value = row;
+  showViewModal.value = true;
 }
 
-function closeDeleteModal() {
-  showDeleteModal.value = false;
-  selectedRow.value = null;
+function closeViewModal() {
+  showViewModal.value = false;
 }
 
-function confirmDelete() {
-  if (selectedRow.value) {
-    emits('delete', selectedRow.value);
-  }
-
-  closeDeleteModal();
-}
-
+// send
 const showSendModal = ref(false);
 
 function openSendModal(id: string) {
-  selectedRow.value = id;
+  selectedRowId.value = id;
   showSendModal.value = true;
 }
 
 function closeSendModal() {
   showSendModal.value = false;
-  selectedRow.value = null;
+  selectedRowId.value = null;
 }
 
 function confirmSend() {
-  if (selectedRow.value) {
-    emits('send', selectedRow.value);
+  if (selectedRowId.value) {
+    emits('send', selectedRowId.value);
   }
 
   closeSendModal();
+}
+
+// edit
+const editingRow = ref<TableRow | null>(null);
+const showEditModal = ref(false);
+
+function openEditModal(row: TableRow) {
+  editingRow.value = { ...row };
+  showEditModal.value = true;
+}
+
+function closeEditModal() {
+  showEditModal.value = false;
+  editingRow.value = null;
+}
+
+function confirmEdit(updatedRow: TableRow) {
+  const index = tableData.value.findIndex(r => r.id === updatedRow.id);
+  if (index !== -1) {
+    tableData.value[index] = updatedRow;
+    localStorage.setItem('data', JSON.stringify(tableData.value));
+  }
+  closeEditModal();
+}
+
+
+// delete
+const showDeleteModal = ref(false);
+
+function openDeleteModal(id: string) {
+  selectedRowId.value = id;
+  showDeleteModal.value = true;
+}
+
+function closeDeleteModal() {
+  showDeleteModal.value = false;
+  selectedRowId.value = null;
+}
+
+function confirmDelete() {
+  if (selectedRowId.value) {
+    emits('delete', selectedRowId.value);
+  }
+
+  closeDeleteModal();
 }
 
 
