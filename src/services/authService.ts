@@ -1,5 +1,6 @@
 import { ref } from 'vue';
 
+// სადემონსტრაციო მომხმარებლის მონაცემები
 const user = ref(JSON.parse(localStorage.getItem('user') || 'null'));
 
 const testUser = {
@@ -27,7 +28,7 @@ function isLoggedIn() {
   return !!user.value;
 }
 
-export function authService() {
+export default function authService() {  
   return {
     user,
     login,

@@ -101,7 +101,7 @@ const toggleMinimize = () => {
 
 .text {
   font-size: 1.2em;
-  transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.3s ease;
 }
 
 .router-link-active {

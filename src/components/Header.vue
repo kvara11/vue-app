@@ -20,7 +20,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
 import moment from 'moment';
-import { authService } from '../services/authService';
+import authService  from '../services/authService';
 
 const props = defineProps<{
     username: {
@@ -71,7 +71,7 @@ const { logout } = authService();
 
 .logo-img {
     width: 2em;
-    transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease;
 }
 
 .logo-cont:hover .logo-img {
@@ -140,6 +140,7 @@ const { logout } = authService();
     cursor: pointer;
     box-shadow: 0 2px 8px rgba(240, 78, 78, 0.08);
     transition: background 0.2s, box-shadow 0.2s;
+    line-height: 1.5;
 }
 
 .logout-button:hover {

@@ -16,7 +16,7 @@
               <i class="fa fa-eye" aria-hidden="true"></i>
             </button>
             
-            <button @click="emits('send', row.id)" class="action-btn send" title="გადაგზავნა">
+            <button @click="openSendModal(row.id)" class="action-btn send" title="გადაგზავნა">
               <i class="fa fa-paper-plane" aria-hidden="true"></i>
             </button>
             
@@ -24,7 +24,7 @@
               <i class="fa fa-pencil" aria-hidden="true"></i>
             </button>
             
-            <button @click="emits('delete', row.id)" class="action-btn delete" title="წაშლა">
+            <button @click="openDeleteModal(row.id)" class="action-btn delete" title="წაშლა">
               <i class="fa fa-trash" aria-hidden="true"></i>
             </button>
 
@@ -32,16 +32,30 @@
         </tr>
       </TransitionGroup>
     </table>
+
+    <Modal
+      v-if="showDeleteModal"
+      :isOpened="showDeleteModal"
+      message="ნამდვილად გსურთ ჩანაწერის წაშლა?"
+      @confirm="confirmDelete"
+      @cancel="closeDeleteModal"
+    />
+
+    <Modal
+      v-if="showSendModal"
+      :isOpened="showSendModal"
+      message="ნამდვილად გსურთ დაგაგზავნა?"
+      @confirm="confirmSend"
+      @cancel="closeSendModal"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
 import type { TableRow, Column } from '../types';
+import Modal from "../components/ConfirmModal.vue";
 // import * as XLSX from 'xlsx';
-
-
-
 
 const props = defineProps<{
   data: TableRow[];
@@ -60,12 +74,55 @@ const emits = defineEmits<{
   delete: [id: string];
 }>();
 
-
 const tableData = ref<TableRow[]>(props.data);
 
+
+
+// Modal ის ფუნქციები
+const selectedRow = ref<string | null>(null);
+const showDeleteModal = ref(false);
+
+function openDeleteModal(id: string) {
+  selectedRow.value = id;
+  showDeleteModal.value = true;
+}
+
+function closeDeleteModal() {
+  showDeleteModal.value = false;
+  selectedRow.value = null;
+}
+
+function confirmDelete() {
+  if (selectedRow.value) {
+    emits('delete', selectedRow.value);
+  }
+
+  closeDeleteModal();
+}
+
+const showSendModal = ref(false);
+
+function openSendModal(id: string) {
+  selectedRow.value = id;
+  showSendModal.value = true;
+}
+
+function closeSendModal() {
+  showSendModal.value = false;
+  selectedRow.value = null;
+}
+
+function confirmSend() {
+  if (selectedRow.value) {
+    emits('send', selectedRow.value);
+  }
+
+  closeSendModal();
+}
+
+
+
 </script>
-
-
 
 <style scoped>
 .table-container {
@@ -143,7 +200,4 @@ const tableData = ref<TableRow[]>(props.data);
   opacity: 0;
   transform: translateY(-10px);
 }
-
-
-
 </style>
