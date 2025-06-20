@@ -37,6 +37,7 @@
       v-if="showViewModal && selectedRow"
       :isOpened="showViewModal"
       :row="selectedRow"
+      :columns="viewColumns"
       mode="view"
       message="sss"
       @cancel="closeViewModal"
@@ -54,6 +55,7 @@
       v-if="showEditModal && editingRow"
       :isOpened="showEditModal"
       :row="editingRow"
+      :columns="editColumns"
       mode="edit"
       message="რედაქტირება"
       @row-edited="confirmEdit"
@@ -76,7 +78,6 @@ import { ref } from 'vue';
 import type { TableRow, Column } from '../types';
 import Modal from "../components/ConfirmModal.vue";
 import RowModal from "../components/TableRowModal.vue";
-// import * as XLSX from 'xlsx';
 
 const props = defineProps<{
   data: TableRow[];
@@ -93,6 +94,20 @@ const emits = defineEmits<{
 
 const tableData = ref<TableRow[]>(props.data);
 
+
+  const viewColumns: Column[] = [
+    { key: 'id', type: 'text', label: 'ID' },
+    { key: 'name', type: 'text', label: 'სახელი' },
+    { key: 'type', type: 'text', label: 'ტიპი' },
+    { key: 'createdAt', type: 'text', label: 'შექმნის დრო' },
+    { key: 'createdBy', type: 'text', label: 'ვინ შექმნა' },
+    { key: 'status', type: 'text', label: 'სტატუსი' }
+];
+
+const editColumns: Column[] = [
+  { key: 'name', type: 'text', label: 'სახელი' },
+  { key: 'type', type: 'text', label: 'ტიპი' },
+];
 
 
 // Modal ის ფუნქციები

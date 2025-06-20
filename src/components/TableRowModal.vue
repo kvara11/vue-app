@@ -5,11 +5,8 @@
         <div class="modal">
           <div class="modal-content">
 
-            <ViewRow @row-edited="emitRowEdited" :columns="columns" :row="props.row" :mode="props.mode"/>
+            <ViewRow @row-edited="emitRowEdited" @cancel="emitCancel" :columns="props.columns" :row="props.row" :mode="props.mode"/>
 
-            <div class="modal-actions">
-              <button class="cancel" @click="emitCancel">{{ props.cancelText }}</button>
-            </div>
           </div>
         </div>
       </div>
@@ -24,19 +21,14 @@ import type { Column, TableRow } from "../types";
 const props = defineProps<{
   isOpened: boolean;
   row: TableRow;
-  cancelText?: string;
   mode: 'add' | 'view' | 'edit';
+  columns: Column[];
 }>();
 
 
 
 const emit = defineEmits(['cancel', 'row-edited']);
 
-
-const columns: Column[] = [
-  { key: 'name', type: 'text', label: 'სახელი' },
-  { key: 'type', type: 'text', label: 'ტიპი' },
-];
 
 function emitRowEdited(editedRow: TableRow) {
   emit('row-edited', editedRow);

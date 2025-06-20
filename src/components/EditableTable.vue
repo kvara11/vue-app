@@ -1,4 +1,16 @@
 <template>
+
+    <div class="header">
+
+        <h3 v-if="props.mode === 'add'">ხელით დამატება</h3>
+        <h3 v-if="props.mode === 'edit'">რედაქტირება</h3>
+        <h3 v-if="props.mode === 'view'">ნახვა</h3>
+
+        <button v-if="props.mode !== 'add'" class="close-btn" @click="emit('cancel')">
+            <i class="fa fa-xmark"></i>
+        </button>
+    </div>
+
     <form @submit.prevent="handleSubmit" class="add-cont" novalidate>
 
         <table class="data-table">
@@ -36,7 +48,7 @@
             <p v-if="success" class="success">ჩანაწერი წარმატებით დაემატა</p>
         </Transition>
 
-        <button v-if="props.mode !== 'view'" type="submit" class="submit">დამატება</button>
+        <button v-if="props.mode !== 'view'" type="submit" class="submit">{{ props.mode === 'add' ? 'დამატება' : 'რედაქტირება' }}</button>
 
     </form>
 
@@ -56,7 +68,7 @@ const props = defineProps<{
     mode: 'add' | 'view' | 'edit';
 }>();
 
-const emit = defineEmits(['row-added', 'row-edited']);
+const emit = defineEmits(['row-added', 'row-edited', 'cancel']);
 
 const success = ref<boolean>(false);
 const error = ref<string | null>(null);
@@ -122,6 +134,14 @@ function handleSubmit() {
 
 
 <style scoped>
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
 .add-cont {
     display: flex;
     flex-direction: column;

@@ -1,6 +1,6 @@
 <template>
   <div class="view-view">
-    <h1>ცხრილი</h1>
+    <h3>ცხრილი</h3>
     <div v-if="loading" class="table-loading">
       <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
       <span class="sr-only">Loading...</span>

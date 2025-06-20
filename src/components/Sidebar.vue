@@ -43,7 +43,6 @@ const toggleMinimize = () => {
 <style scoped>
 .sidebar {
   width: 12rem;
-  height: 100vh;
   background-color: var(--primary-color);
   color: var(--text-color);
   padding: 100px 0;

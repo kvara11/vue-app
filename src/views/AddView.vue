@@ -1,7 +1,9 @@
 <template>
   <div class="add-view">
 
-    <AddRow :finalData="finalData" @row-added="handleRowAdded" :columns="columns" mode="add" />
+    <AddRow class="add-row" :finalData="finalData" @row-added="handleRowAdded" :columns="columns" mode="add" />
+    <div class="line"></div>
+    <ExcelImport @rows-imported="handleExcelImport" />
 
   </div>
 </template>
@@ -9,6 +11,7 @@
 <script setup lang="ts">
 import { reactive } from "vue";
 import AddRow from "../components/EditableTable.vue";
+import ExcelImport from "../components/ExcelImport.vue";
 import type { Column, TableRow } from "../types";
 
 const columns: Column[] = [
@@ -23,6 +26,11 @@ function handleRowAdded(newRow: TableRow) {
   localStorage.setItem('data', JSON.stringify(finalData));
 }
 
+function handleExcelImport(importedRows: TableRow[]) {
+  finalData.push(...importedRows);
+  localStorage.setItem('data', JSON.stringify(finalData));
+}
+
 </script>
 
 <style scoped>
@@ -31,6 +39,10 @@ function handleRowAdded(newRow: TableRow) {
   flex-direction: column;
   gap: 2rem;
   padding: 2rem;
-  margin: 2rem auto;
+}
+
+.line {
+  width: 100%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
 </style>
