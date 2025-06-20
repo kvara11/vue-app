@@ -1,10 +1,13 @@
 <template>
   <div class="view-view">
+    
     <h3>ცხრილი</h3>
+    
     <div v-if="loading" class="table-loading">
       <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
       <span class="sr-only">Loading...</span>
     </div>
+
     <Table
       v-else
       :data="tableData"
@@ -15,12 +18,10 @@
       @send="sendRow"
       @delete="deleteRow"
     />
-
     
   </div>
 </template>
 
-<!-- filters status date-->
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
@@ -56,7 +57,9 @@ onMounted(() => {
 
 const sendRow = (id: string) => {
   const index = tableData.value.findIndex(row => row.id === id);
+  
   tableData.value[index].status = 'დასრულებული';
+  localStorage.setItem('data', JSON.stringify(tableData.value));
 };
 
 function editRow(editedRow: TableRow) {
