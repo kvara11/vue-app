@@ -23,10 +23,11 @@
 <script setup lang="ts">
 
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import authService from '../services/authService';
 
 const { login } = authService();
-
+const router = useRouter();
 const username = ref<string>('');
 const password = ref<string>('');
 const error = ref<string | null>(null);
@@ -39,6 +40,8 @@ function handleLogin(): void {
 
     if (!success) {
         error.value = 'არასწორი მომხმარებელი ან პაროლი';
+    } else {
+        router.push('/');
     }
 }
 </script>
