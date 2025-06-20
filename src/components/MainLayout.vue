@@ -43,7 +43,7 @@ const props = defineProps<{
 .content {
   flex: 1;
   padding: 20px;
-  background-color: #f5f5f5;
+  background: var(--bg-layout);
 }
 
 h1 {

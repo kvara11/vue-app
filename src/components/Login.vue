@@ -48,8 +48,8 @@ function handleLogin(): void {
 
 <style scoped>
 .login-container {
-    min-height: 65vh;
-    min-width: 30vw;
+    background: var(--bg-login);
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -58,10 +58,11 @@ function handleLogin(): void {
 }
 
 .login-form {
-    background: #201335;
+    background: var(--primary-color);
     padding: 2.5rem 3rem;
     border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    border: 1px dotted var(--secondary-color);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
     width: 320px;
     max-width: 100%;
     display: flex;

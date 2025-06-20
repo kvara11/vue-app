@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <main>
     <Login v-if="!isLoggedIn" />
     <MainLayout v-else :username="user?.username" />
-  </div>
+  </main>
 </template>
 
 
@@ -18,33 +18,33 @@ const isLoggedIn = computed(() => user.value)
 
 
 
-// create example data
+// სადემონსტრაციო ინფორმაცია
 if (isLoggedIn) {
   
   const j = [
     {
       id: 1,
       name: 'მაგალითი 1',
-      createdAt: '2024-03-20',
-      createdBy: 'ადმინი',
+      createdAt: '2025-01-00',
+      createdBy: 'admin',
       type: 'ტიპი 1',
       status: 'აქტიური'
     },
     {
       id: 2,
-      name: 'მაგალითი 1',
-      createdAt: '2024-03-20',
-      createdBy: 'ადმინი',
+      name: 'მაგალითი 2',
+      createdAt: '2025-02-17',
+      createdBy: 'admin',
       type: 'ტიპი 1',
       status: 'აქტიური'
     },
     {
       id: 3,
-      name: 'მაგალითი 1',
-      createdAt: '2024-03-20',
-      createdBy: 'ადმინი',
+      name: 'მაგალითი 3',
+      createdAt: '2025-03-20',
+      createdBy: 'admin',
       type: 'ტიპი 1',
-      status: 'აქტიური'
+      status: 'დასრულებული'
     }
   ];
   

@@ -16,4 +16,6 @@ body {
   --primary-color: #003049;
   --secondary-color: #f0f0f0;
   --text-color: #ffffff;
+  --bg-login: linear-gradient(135deg, #00263a 0%, #045175 25%, #0a7099 50%, #035074 75%, #00263a 100%);
+  --bg-layout: radial-gradient(circle, hsla(45, 100%, 98%, 1) 0%, rgb(255, 248, 247) 100%);
 }
