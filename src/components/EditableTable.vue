@@ -23,15 +23,8 @@
                 <tr>
                     <td v-for="col in props.columns" :key="col.key">
                         <!-- Add/Edit -->
-                        <input 
-                            v-if="['add', 'edit'].includes(props.mode)" 
-                            :id="col.key" 
-                            :type="col.type" 
-                            :placeholder="col.label" 
-                            v-model="rowData[col.key]"
-                            required 
-                            @input="error = ''" 
-                        />
+                        <input v-if="['add', 'edit'].includes(props.mode)" :id="col.key" :type="col.type"
+                            :placeholder="col.label" v-model="rowData[col.key]" required @input="error = ''" />
 
                         <!-- View -->
                         <span v-else>{{ props.row?.[col.key] }}</span>
@@ -40,15 +33,21 @@
             </tbody>
         </table>
 
-        <Transition name="error" tag="p">
-            <p v-if="error" class="error">{{ error }}</p>
-        </Transition>
+        <div class="form-footer">
+            <div class="messages">
+                <Transition name="error">
+                    <p v-if="error" class="error">{{ error }}</p>
+                </Transition>
 
-        <Transition name="success">
-            <p v-if="success" class="success">ჩანაწერი წარმატებით დაემატა</p>
-        </Transition>
+                <Transition name="success">
+                    <p v-if="success" class="success">ჩანაწერი წარმატებით დაემატა</p>
+                </Transition>
+            </div>
 
-        <button v-if="props.mode !== 'view'" type="submit" class="submit">{{ props.mode === 'add' ? 'დამატება' : 'რედაქტირება' }}</button>
+            <button v-if="props.mode !== 'view'" type="submit" class="submit">
+                {{ props.mode === 'add' ? 'დამატება' : 'რედაქტირება' }}
+            </button>
+        </div>
 
     </form>
 
@@ -78,13 +77,13 @@ const { user } = authService();
 
 
 watch(
-  () => props.row,
-  () => {
-    if (props.mode === 'edit' && props.row) {
-      Object.assign(rowData, props.row)
-    }
-  },
-  { immediate: true }
+    () => props.row,
+    () => {
+        if (props.mode === 'edit' && props.row) {
+            Object.assign(rowData, props.row)
+        }
+    },
+    { immediate: true }
 )
 
 function handleSubmit() {
@@ -100,7 +99,7 @@ function handleSubmit() {
         error.value = `შეავსეთ ველი: ${validator[0].label} !`
         return
     }
-    
+
     if (props.mode === 'edit') {
 
         emit('row-edited', rowData);
@@ -114,15 +113,15 @@ function handleSubmit() {
             type: rowData.type,
             status: 'აქტიური'
         };
-    
+
         emit('row-added', newRow);
-    
+
         props.columns.forEach(col => {
             rowData[col.key] = '';
         });
     }
 
-    
+
     success.value = true;
     setTimeout(() => {
         success.value = false;
@@ -135,13 +134,13 @@ function handleSubmit() {
 
 <style scoped>
 .action-btn {
-  padding: 6px 12px;
-  border: 1px solid rgb(192, 191, 191);
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1em;
-  color: #313131;
-  background-color: #ebeaea;
+    padding: 6px 12px;
+    border: 1px solid rgb(192, 191, 191);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    color: #313131;
+    background-color: #ebeaea;
 }
 
 .header {
@@ -193,9 +192,14 @@ input {
     padding: 20px;
 }
 
-.submit {
-    margin-top: 2rem;
+.form-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+    width: 100%;
 }
+
 
 .error {
     margin-top: 1rem;
@@ -235,6 +239,7 @@ input {
 
 /* ღილაკის სტილები */
 .submit {
+    margin-top: 2rem;
     margin-left: auto;
     align-items: center;
     appearance: none;
