@@ -1,7 +1,7 @@
 <template>
   <div class="add-view">
 
-    <AddRow class="add-row" :finalData="finalData" @row-added="handleRowAdded" :columns="columns" mode="add" />
+    <AddRow @row-added="handleRowAdded" :columns="columns" mode="add" />
     <div class="line"></div>
     <ExcelImport @rows-imported="handleExcelImport" />
 

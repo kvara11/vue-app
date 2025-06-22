@@ -1,7 +1,7 @@
 <template>
   <main>
     <Login v-if="!isLoggedIn" />
-    <MainLayout v-else :username="user?.username" />
+    <MainLayout v-else />
   </main>
 </template>
 
@@ -13,11 +13,11 @@ import authService from './services/authService'
 import Login from './components/Login.vue'
 import MainLayout from './components/MainLayout.vue'
 
-const { user } = authService();
-console.log(user.value);
+
+const { user, initUser } = authService();
+initUser();
 
 const isLoggedIn = computed(() => user.value);
-  
 
 
 if (isLoggedIn) {

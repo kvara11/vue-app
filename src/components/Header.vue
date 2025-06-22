@@ -9,7 +9,7 @@
                 <i class="fa fa-circle" aria-hidden="true"></i>
                 <span class="time">{{ time }}</span>
             </span>
-            <span class="username"><i>{{ props.username }}</i></span>
+            <span class="username"><i>{{ user?.firstName }} {{ user?.lastName }}</i></span>
             <button class="logout-button" @click="logout"><i class="fa fa-sign-out" aria-hidden="true"></i><strong> გამოსვლა</strong></button>
         </div>
     </header>
@@ -22,11 +22,6 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import moment from 'moment';
 import authService  from '../services/authService';
 
-const props = defineProps<{
-    username: {
-        type: string,
-    }
-}>();
 
 let time = ref(moment().format('HH:mm'));
 
@@ -40,7 +35,7 @@ onMounted(() => {
     });
 })
 
-const { logout } = authService();
+const { user, logout } = authService();
 
 </script>
 

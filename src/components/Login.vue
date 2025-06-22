@@ -3,13 +3,9 @@
         <form @submit.prevent="handleLogin" class="login-form" novalidate>
             <h2>შესვლა</h2>
 
-            <label for="email">ელ. ფოსტა</label>
-            <input id="email" type="email" v-model="username" placeholder="your@email.com" required
-                autocomplete="username" />
+            <input id="email" type="email" v-model="username" placeholder="ელ. ფოსტა" required/>
 
-            <label for="password">პაროლი</label>
-            <input id="password" type="password" v-model="password" placeholder="••••••••" required
-                autocomplete="current-password" minlength="6" />
+            <input id="password" type="password" v-model="password" placeholder="პაროლი" required minlength="4" />
 
             <button type="submit">შესვლა</button>
 
@@ -35,6 +31,21 @@ const error = ref<string | null>(null);
 function handleLogin(): void {
     
     error.value = null
+
+    if (!username.value.trim()) {
+        error.value = 'გთხოვთ შეიყვანოთ ელ. ფოსტა';
+        return;
+    }
+
+    if (!password.value.trim()) {
+        error.value = 'გთხოვთ შეიყვანოთ პაროლი';
+        return;
+    }
+
+    if (password.value.length < 4) {
+        error.value = 'პაროლი უნდა შეიცავდეს მინიმუმ 4 სიმბოლოს';
+        return;
+    }
     
     const success = login(username.value, password.value);
 
@@ -66,7 +77,7 @@ function handleLogin(): void {
     border-radius: 20px;
     border: 1px dotted var(--secondary-color);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    width: 320px;
+    width: 370px;
     max-width: 100%;
     display: flex;
     flex-direction: column;

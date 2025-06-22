@@ -6,8 +6,8 @@
         <h3 v-if="props.mode === 'edit'">რედაქტირება</h3>
         <h3 v-if="props.mode === 'view'">ნახვა</h3>
 
-        <button v-if="props.mode !== 'add'" class="close-btn" @click="emit('cancel')">
-            <i class="fa fa-xmark"></i>
+        <button v-if="props.mode !== 'add'" class="action-btn" @click="emit('cancel')">
+            <i class="fa fa-times" aria-hidden="true"></i>
         </button>
     </div>
 
@@ -110,7 +110,7 @@ function handleSubmit() {
             id: Math.random().toString(16).slice(2, 6),
             name: rowData.name,
             createdAt: moment().format('YYYY-MM-DD HH:ss'),
-            createdBy: user.value?.username,
+            createdBy: user.value?.username || '',
             type: rowData.type,
             status: 'აქტიური'
         };
@@ -134,6 +134,15 @@ function handleSubmit() {
 
 
 <style scoped>
+.action-btn {
+  padding: 6px 12px;
+  border: 1px solid rgb(192, 191, 191);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  color: #313131;
+  background-color: #ebeaea;
+}
 
 .header {
     display: flex;
@@ -225,7 +234,8 @@ input {
 }
 
 /* ღილაკის სტილები */
-button {
+.submit {
+    margin-left: auto;
     align-items: center;
     appearance: none;
     background-image: var(--bg-login);
@@ -249,16 +259,16 @@ button {
     font-weight: 600;
 }
 
-button:focus {
+.submit:focus {
     box-shadow: #045175 0 0 0 1.5px inset, rgba(45, 35, 66, .4) 0 2px 4px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
 }
 
-button:hover {
+.submit:hover {
     box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #035074 0 -3px 0 inset;
     transform: translateY(-2px);
 }
 
-button:active {
+.submit:active {
     box-shadow: #00263a 0 3px 7px inset;
     transform: translateY(2px);
 }

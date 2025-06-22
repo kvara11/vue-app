@@ -2,7 +2,7 @@
   <div class="layout">
     <Sidebar />
     <div class="main-content">
-      <Header :username="props.username" />
+      <Header />
       <main class="content">
         <RouterView />
       </main>
@@ -16,12 +16,6 @@
 import Header from './Header.vue';
 import Footer from './Footer.vue';
 import Sidebar from './Sidebar.vue';
-
-const props = defineProps<{
-  username: {
-    type: string,
-  }
-}>();
 
 </script>
 

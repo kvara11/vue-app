@@ -16,15 +16,15 @@
               <i class="fa fa-eye" aria-hidden="true"></i>
             </button>
             
-            <button @click="openSendModal(row.id)" class="action-btn send" title="გადაგზავნა">
+            <button @click="openSendModal(row.id)" class="action-btn send" title="გადაგზავნა" :disabled="row.status !== 'აქტიური'">
               <i class="fa fa-paper-plane" aria-hidden="true"></i>
             </button>
             
-            <button @click="openEditModal(row)" class="action-btn edit" title="რედაქტირება">
+            <button @click="openEditModal(row)" class="action-btn edit" title="რედაქტირება" :disabled="row.status !== 'აქტიური'">
               <i class="fa fa-pencil" aria-hidden="true"></i>
             </button>
             
-            <button @click="openDeleteModal(row.id)" class="action-btn delete" title="წაშლა">
+            <button @click="openDeleteModal(row.id)" class="action-btn delete" title="წაშლა" :disabled="row.status !== 'აქტიური'">
               <i class="fa fa-trash" aria-hidden="true"></i>
             </button>
 
@@ -239,6 +239,13 @@ function confirmDelete() {
   font-size: 0.9em;
 }
 
+.action-btn:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 .view {
   background-color: #4CAF50;
   color: white;
@@ -251,7 +258,7 @@ function confirmDelete() {
 
 .edit {
   background-color: #ffbd07;
-  color: rgb(49, 49, 49);
+  color: #313131;
 }
 
 .delete {
